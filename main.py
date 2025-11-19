@@ -6,10 +6,9 @@ import json
 from logs import Logger
 from plugin_manager import PluginManager
 
-# load_dotenv()
-# URL = os.getenv('URL')
-URL = "ws://127.0.0.1:3001"
-
+load_dotenv()
+URL = os.getenv('URL')
+# URL=ws://172.16.0.2:3001
 # 初始化插件管理器
 plugin_manager = PluginManager()
 

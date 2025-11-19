@@ -45,10 +45,23 @@ class PluginManager:
                     module = importlib.import_module(module_name)
                 
                 # 查找模块中所有的异步函数（排除私有函数和特殊方法）
-                functions = [
-                    obj for name, obj in inspect.getmembers(module, inspect.isfunction)
-                    if inspect.iscoroutinefunction(obj) and not name.startswith('_')
-                ]
+                # 只获取模块中定义的函数，不包括导入的函数
+                module_file = plugin_file.resolve()
+                functions = []
+                for name, obj in inspect.getmembers(module, inspect.isfunction):
+                    # 检查是否是模块中定义的函数（不是导入的）
+                    if (inspect.iscoroutinefunction(obj) and 
+                        not name.startswith('_') and
+                        hasattr(obj, '__module__') and
+                        obj.__module__ == module_name):
+                        # 进一步检查函数定义的文件
+                        try:
+                            func_file = inspect.getfile(obj)
+                            if Path(func_file).resolve() == module_file:
+                                functions.append(obj)
+                        except (TypeError, OSError):
+                            # 如果无法获取文件，跳过（可能是内置函数）
+                            pass
                 
                 if functions:
                     self.plugins.extend(functions)
