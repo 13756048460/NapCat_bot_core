@@ -1,0 +1,2 @@
+# NapCat_bot_core
+基于NapCat_api的python开发环境,使用反向ws
