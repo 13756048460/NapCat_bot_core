@@ -1,0 +1,14 @@
+pyproject.toml
+bot_core/__init__.py
+bot_core/bot.py
+bot_core/logs.py
+bot_core/main.py
+bot_core/plugin_manager.py
+bot_core.egg-info/PKG-INFO
+bot_core.egg-info/SOURCES.txt
+bot_core.egg-info/dependency_links.txt
+bot_core.egg-info/entry_points.txt
+bot_core.egg-info/requires.txt
+bot_core.egg-info/top_level.txt
+bot_core/api/__init__.py
+bot_core/api/client.py

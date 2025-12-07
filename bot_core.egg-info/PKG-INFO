@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: bot_core
+Version: 0.1.0
+Summary: A NapCat bot core
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: websockets
+Requires-Dist: python-dotenv
+Requires-Dist: colorlog
+Requires-Dist: watchdog

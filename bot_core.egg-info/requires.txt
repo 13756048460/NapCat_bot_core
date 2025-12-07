@@ -1,0 +1,4 @@
+websockets
+python-dotenv
+colorlog
+watchdog
