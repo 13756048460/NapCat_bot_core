@@ -2,6 +2,8 @@
 
 这是一个基于 NapCat_api开发的的 QQ 机器人核心python框架包。
 
+## 感谢 Gemini chatGPT Qwen3 
+
 ## 功能特性
 
 - **WebSocket 连接**: 支持与 NapCat 建立 WebSocket 连接。
@@ -1627,5 +1629,6 @@ class BotClient:
         await asyncio.sleep(0.1)
 
 ```
+
 
 
