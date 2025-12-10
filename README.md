@@ -4,7 +4,7 @@
 
 ## 功能特性
 
-- **WebSocket 连接**: 支持与 NapCat 建立 WebSocket 连接。
+- **反向WebSocket 连接**: 支持与 NapCat 建立 反向WebSocket 连接。
 - **插件系统**: 支持动态加载和热重载插件。
 - **API 封装**: 提供了完整的 NapCat API 封装。
 - **日志系统**: 提供了带有颜色的日志输出。
@@ -86,11 +86,11 @@ await client.send_msg()
 
 .text(string)，添加文本消息
 
-.at(int)，传入qq号（仅群聊）
+.at(int)，传入被at的qq号（仅群聊）
 
 .image(str||url)，传入file://链接以及url
 
-.face(int)，传入face_id
+.face(int)，传入表情face_id
 
 .reply(int)，传入回复的msg_id
 
@@ -296,3 +296,4 @@ async def hello_reply(msg: Message, client: BotClient):
     if msg.raw == "你好":
         await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
 ```
+
