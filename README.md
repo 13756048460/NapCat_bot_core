@@ -1,6 +1,6 @@
 # Bot Core
 
-这是一个基于 NapCat 的 QQ 机器人核心框架。
+这是一个基于 NapCat_api // onebotV11 的 QQ 机器人核心包。
 
 ## 功能特性
 
