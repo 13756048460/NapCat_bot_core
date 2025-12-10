@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Bot_core_Client"
+version = "0.1.1"
+description = "A NapCat bot core"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "websockets",
+    "python-dotenv",
+    "colorlog",
+    "watchdog"
+]
+
+[project.scripts]
+bot-run = "Bot_core_Client.main:main"
+
+[tool.setuptools.packages.find]
+include = ["Bot_core_Client*"]
+exclude = ["plugins*", "tests*"]

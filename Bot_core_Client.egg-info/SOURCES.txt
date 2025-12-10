@@ -1,0 +1,16 @@
+README.md
+pyproject.toml
+Bot_core_Client/__init__.py
+Bot_core_Client/bot.py
+Bot_core_Client/logs.py
+Bot_core_Client/main.py
+Bot_core_Client/plugin_manager.py
+Bot_core_Client.egg-info/PKG-INFO
+Bot_core_Client.egg-info/SOURCES.txt
+Bot_core_Client.egg-info/dependency_links.txt
+Bot_core_Client.egg-info/entry_points.txt
+Bot_core_Client.egg-info/requires.txt
+Bot_core_Client.egg-info/top_level.txt
+Bot_core_Client/api/BotClient.py
+Bot_core_Client/api/__init__.py
+Bot_core_Client/api/client.py
