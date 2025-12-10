@@ -253,3 +253,46 @@ messages = [
 await client.send_group_forward_msg(group_id,messages,"房间数据","点击查看","房间数据")
 ```
 
+
+
+### 消息对象
+
+#### 如传入类型为msg: Message
+
+其中方法为
+
+.raw()，获取原始消息内容
+
+.user_id()，获取用户ID
+
+.message_id()，获取消息ID
+
+.ragroup_id()，获取群ID（仅群聊消息）
+
+.message_type()，获取消息类型（group/private）
+
+.js()，获取原始字典对象
+
+.dict()，获取原始字典对象（兼容旧方法）
+
+.get()，获取消息字段
+
+
+
+#### 如传入类型为msg: dict
+
+则为原始字典
+
+#### 使用方法
+
+```python
+msg.raw == "你好":
+```
+### 插件实例
+
+```python
+async def hello_reply(msg: Message, client: BotClient):
+    """当收到'你好'时回复这条消息并@发送者加你好"""
+    if msg.raw == "你好":
+        await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
+```
