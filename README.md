@@ -50,15 +50,6 @@ async def my_plugin(msg:Message, client: BotClient):
     pass
 ```
 
-如果使用原封装api则为
-
-```python
-async def my_plugin(msg:dict , client: BotClient):
-    # 处理消息逻辑
-    pass
-```
-
-
 
 ## 插件开发
 
@@ -296,4 +287,5 @@ async def hello_reply(msg: Message, client: BotClient):
     if msg.raw == "你好":
         await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
 ```
+
 
