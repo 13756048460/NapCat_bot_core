@@ -1,10 +1,10 @@
 # Bot Core
 
-这是一个基于 NapCat 的 QQ 机器人核心框架。
+这是一个基于 NapCat_api // onebotV11 的 QQ 机器人核心包。
 
 ## 功能特性
 
-- **WebSocket 连接**: 支持与 NapCat 建立 WebSocket 连接。
+- **反向WebSocket 连接**: 支持与 NapCat 建立 反向WebSocket 连接。
 - **插件系统**: 支持动态加载和热重载插件。
 - **API 封装**: 提供了完整的 NapCat API 封装。
 - **日志系统**: 提供了带有颜色的日志输出。
@@ -30,13 +30,11 @@ bot_core/
 import asyncio
 from bot_core import Bot
 
-
 async def main():
     # 初始化机器人，指定 WebSocket URL 和插件目录 TOKEN可以为空
-    bot = Bot(url=URL, token=TOKEN, plugin_dir="Bot_core_Client/plugins")
+    bot = Bot(url=URL, token=TOKEN, plugin_dir="plugins")
     # 启动机器人
     await bot.run()
-
 
 if __name__ == '__main__':
     asyncio.run(main())
@@ -51,15 +49,6 @@ async def my_plugin(msg:Message, client: BotClient):
     # 处理消息逻辑
     pass
 ```
-
-如果使用原封装api则为
-
-```python
-async def my_plugin(msg:dict , client: BotClient):
-    # 处理消息逻辑
-    pass
-```
-
 
 
 ## 插件开发
@@ -88,11 +77,11 @@ await client.send_msg()
 
 .text(string)，添加文本消息
 
-.at(int)，传入qq号（仅群聊）
+.at(int)，传入被at的qq号（仅群聊）
 
 .image(str||url)，传入file://链接以及url
 
-.face(int)，传入face_id
+.face(int)，传入表情face_id
 
 .reply(int)，传入回复的msg_id
 
@@ -254,4 +243,49 @@ messages = [
         ]
 await client.send_group_forward_msg(group_id,messages,"房间数据","点击查看","房间数据")
 ```
+
+
+
+### 消息对象
+
+#### 如传入类型为msg: Message
+
+其中方法为
+
+.raw()，获取原始消息内容
+
+.user_id()，获取用户ID
+
+.message_id()，获取消息ID
+
+.ragroup_id()，获取群ID（仅群聊消息）
+
+.message_type()，获取消息类型（group/private）
+
+.js()，获取原始字典对象
+
+.dict()，获取原始字典对象（兼容旧方法）
+
+.get()，获取消息字段
+
+
+
+#### 如传入类型为msg: dict
+
+则为原始字典
+
+#### 使用方法
+
+```python
+msg.raw == "你好":
+```
+### 插件实例
+
+```python
+async def hello_reply(msg: Message, client: BotClient):
+    """当收到'你好'时回复这条消息并@发送者加你好"""
+    if msg.raw == "你好":
+        await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
+```
+
 
