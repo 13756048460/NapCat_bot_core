@@ -30,11 +30,13 @@ bot_core/
 import asyncio
 from bot_core import Bot
 
+
 async def main():
     # 初始化机器人，指定 WebSocket URL 和插件目录 TOKEN可以为空
-    bot = Bot(url=URL, token=TOKEN, plugin_dir="plugins")
+    bot = Bot(url=URL, token=TOKEN, plugin_dir="Bot_core_Client/plugins")
     # 启动机器人
     await bot.run()
+
 
 if __name__ == '__main__':
     asyncio.run(main())
