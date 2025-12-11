@@ -1,2 +1,0 @@
-[console_scripts]
-bot-run = Bot_core_Client.main:main
