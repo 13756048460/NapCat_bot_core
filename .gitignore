@@ -9,7 +9,7 @@ venv/
 env/
 
 # Distribution / packaging
-dist/
+# dist/  # Uncommented to allow dist folder commits
 build/
 *.egg-info/
 *.egg
