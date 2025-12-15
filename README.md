@@ -85,6 +85,8 @@ await client.send_msg()
 
 .reply(int)，传入回复的msg_id
 
+.music(str,srt)，音乐卡片，第一个参数传入163或qq，第二个参数传入音乐id
+
 **以下方未经测试**
 
 .voice()，添加语音
@@ -92,8 +94,6 @@ await client.send_msg()
 .video()，添加视频
 
 .json_msg()，json消息
-
-.music()，音乐卡片
 
 .custom_music()，自定义音乐卡片
 
