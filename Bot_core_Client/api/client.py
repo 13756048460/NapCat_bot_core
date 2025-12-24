@@ -173,6 +173,45 @@ class MessageBuilder:
         self.message_chain.append({"type": "rps"})
         return self
     
+    def forward_node(self, user_id: int, nickname: str, content: Any) -> 'MessageBuilder':
+        """添加转发节点消息
+        
+        Args:
+            user_id: 发送者QQ号
+            nickname: 发送者昵称
+            content: 消息内容 (字符串或消息链)
+        """
+        # 如果内容是字符串，转换为文本消息链
+        processed_content = content
+        if isinstance(content, str):
+            # 将字符串转换为消息链格式
+            processed_content = [{
+                "type": "text",
+                "data": {"text": content}
+            }]
+        elif isinstance(content, list):
+            # 如果是列表，直接使用
+            processed_content = content
+        elif isinstance(content, dict) and "type" in content and "data" in content:
+            # 如果是单个消息对象，包装成列表
+            processed_content = [content]
+        else:
+            # 如果不是字符串也不是列表，包装成消息链
+            processed_content = [{
+                "type": "text",
+                "data": {"text": str(content)}
+            }]
+        
+        self.message_chain.append({
+            "type": "node",
+            "data": {
+                "user_id": str(user_id),
+                "nickname": nickname,
+                "content": processed_content
+            }
+        })
+        return self
+    
     async def send(self) -> None:
         """发送消息"""
         if self.target_type == 'group':
@@ -189,6 +228,37 @@ class MessageBuilder:
                 "message": self.message_chain
             }
             log_msg = f"发送私聊消息, 用户: {self.target_id}"
+        
+        json_msg = {
+            "action": action,
+            "params": params
+        }
+        await self.websocket.send(json.dumps(json_msg))
+        Logger().info(log_msg)
+        await asyncio.sleep(0.1)
+    
+    async def send_forward(self) -> None:
+        """发送转发消息"""
+        # 检查消息链中是否包含转发节点
+        has_forward_nodes = any(msg.get("type") == "node" for msg in self.message_chain)
+        if not has_forward_nodes:
+            Logger().warning("消息链中没有转发节点，无法发送合并转发消息")
+            return
+            
+        if self.target_type == 'group':
+            action = "send_group_forward_msg"
+            params = {
+                "group_id": self.target_id,
+                "messages": self.message_chain
+            }
+            log_msg = f"发送群合并转发消息, 群号: {self.target_id}"
+        else:  # private
+            action = "send_private_forward_msg"
+            params = {
+                "user_id": self.target_id,
+                "messages": self.message_chain
+            }
+            log_msg = f"发送私聊合并转发消息, 用户: {self.target_id}"
         
         json_msg = {
             "action": action,

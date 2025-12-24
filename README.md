@@ -51,7 +51,7 @@ async def my_plugin(msg:Message, client: BotClient):
 ```
 
 
-## 插件开发
+## 消息链
 
 ### 构造消息链
 
@@ -85,6 +85,8 @@ await client.send_msg()
 
 .reply(int)，传入回复的msg_id
 
+.music(str,srt)，音乐卡片，第一个参数传入163或qq，第二个参数传入音乐id
+
 **以下方未经测试**
 
 .voice()，添加语音
@@ -92,8 +94,6 @@ await client.send_msg()
 .video()，添加视频
 
 .json_msg()，json消息
-
-.music()，音乐卡片
 
 .custom_music()，自定义音乐卡片
 
@@ -112,6 +112,109 @@ await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你
 ```
 
 其含义为，回复消息，群私聊都可以，at用户，发送文字你好，并附带图片
+
+### 构造转发消息链
+通过导入类
+
+```python
+from api.client import Message
+```
+
+~~~python
+await client.send_msg()
+~~~
+#### 发送前缀
+
+.all(msg)，传入包装后的消息对象，自动识别是否是群或者私聊
+
+.group(group_id||msg)，传入群号或消息对象，发送群消息
+
+.private(user_id||msg)，传入用户id或消息对象，发送私聊消息
+
+#### 消息链为
+
+.forward_node(user_id,nickname,content)
+
+user_id:转发内容中构造消息的qq号码
+
+nickname:转发内容中构造消息的qq昵称
+
+content:转发内容中构造消息的消息链，传入string||消息链
+
+#### 转发文字消息构造
+
+```python
+await (client
+       .send_msg()
+       .group(group_id)  # 或 .private(user_id) 用于私聊 或 .all(msg) 自动识别
+       .forward_node(user_id, nickname, content)
+       .forward_node(user_id, nickname, content)
+       .send_forward())
+```
+
+发送转发消息，其内容为转发消息内两个消息对象
+
+#### 转发消息链
+
+```python
+.forward_node(123456789, "用户A", [
+    {"type": "text", "data": {"text": "这是"}},
+    {"type": "face", "data": {"id": 14}},
+    {"type": "text", "data": {"text": "包含表情的消息"}}
+])
+```
+支持的消息类型包括：
+- `text`: 文本消息
+- `face`: 表情消息
+- `image`: 图片消息
+- `at`: @消息
+- `reply`: 回复消息
+- `record`: 语音消息
+- `video`: 视频消息
+- `music`: 音乐卡片消息
+- `json`: JSON消息
+- `dice`: 骰子消息
+- `rps`: 猜拳消息
+- `poke`: 戳一戳消息
+- `markdown`: Markdown消息
+
+#### 发送转发消息
+
+使用 `.send_forward()` 方法发送构造好的转发消息：
+
+```python
+.send_forward()
+```
+####  使用示例
+
+##### 简单文本转发
+
+``` python
+await (client
+       .send_msg()
+       .group(123456789)
+       .forward_node(10001, "用户A", "这是用户A的消息")
+       .forward_node(10002, "用户B", "这是用户B的消息")
+       .send_forward())
+```
+
+##### 复杂消息链转发
+
+``` python
+await (client
+       .send_msg()
+       .group(123456789)
+       .forward_node(10001, "用户A", [
+           {"type": "text", "data": {"text": "这是"}},
+           {"type": "face", "data": {"id": 14}},
+           {"type": "text", "data": {"text": "用户A的消息"}}
+       ])
+       .forward_node(10002, "用户B", [
+           {"type": "text", "data": {"text": "用户B的纯文本消息"}}
+       ])
+       .send_forward())
+```
+
 
 ### 注
 
@@ -287,5 +390,18 @@ async def hello_reply(msg: Message, client: BotClient):
     if msg.raw == "你好":
         await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
 ```
-
+```python
+async def forward_test_all(msg:dict, client: BotClient):
+    message_type = msg.get("message_type")
+    raw_message = msg.get("raw_message", "")
+    
+    if raw_message == "转发测试all"
+        # 使用all方法自动识别消息类型
+        await (client
+               .send_msg()
+               .all(msg)  # 自动根据msg识别是群聊还是私聊
+               .forward_node(123456789, "用户A", "这是用户A的消息")
+               .forward_node(987654321, "用户B", "这是用户B的消息")
+               .send_forward())
+```
 
