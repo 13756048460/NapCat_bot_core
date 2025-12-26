@@ -7,6 +7,36 @@ import asyncio
 from typing import Optional, List, Dict, Any
 from ..logs import Logger
 
+# 插件注册表，存储插件名称和函数的映射
+_plugin_registry = {}
+
+
+def plugin(name: str):
+    """
+    插件装饰器
+    
+    Args:
+        name: 插件名称，字符串
+        
+    Returns:
+        装饰器函数
+    
+    Raises:
+        ValueError: 当插件名称已存在时抛出异常
+    """
+    def decorator(func):
+        # 检查插件名称是否已经存在
+        if name in _plugin_registry:
+            raise ValueError(f"插件名称 '{name}' 已存在，不能重复定义")
+        
+        # 注册插件
+        _plugin_registry[name] = func
+        func.plugin_name = name  # 为函数添加插件名称属性
+        
+        return func
+    
+    return decorator
+
 
 class Message:
     """消息对象包装类 - 提供便捷的属性访问"""

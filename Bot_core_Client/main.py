@@ -16,7 +16,7 @@ async def main():
         print("Error: URL not found in environment variables.")
         return
 
-    bot = Bot(url=URL, token=TOKEN, plugin_dir="plugins")
+    bot = Bot(url=URL, token=TOKEN, plugin_dir="")  # 设置为空字符串以在所有项目内查找包含装饰器的类
     await bot.run()
 
 if __name__ == '__main__':

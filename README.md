@@ -42,10 +42,19 @@ if __name__ == '__main__':
 
 ## 插件开发
 
+#### 装饰器
+
+引入了插件装饰器，用来装饰插件，`@plugin()`
+
+装饰器@plugin(name: str)，str为插件名称，项目插件不支持重载。
+
+#### 开发
+
 在 `plugins` 目录（或你指定的目录）下创建 `.py` 文件，定义异步函数即可作为插件加载。
 
 ```python
-async def my_plugin(msg:Message, client: BotClient):
+@plugin("str")
+async def _(msg:Message, client: BotClient):
     # 处理消息逻辑
     pass
 ```
@@ -355,21 +364,21 @@ await client.send_group_forward_msg(group_id,messages,"房间数据","点击查�
 
 其中方法为
 
-.raw()，获取原始消息内容
+`.raw()`，获取原始消息内容
 
-.user_id()，获取用户ID
+`.user_id()`，获取用户ID
 
-.message_id()，获取消息ID
+`.message_id()`，获取消息ID
 
-.ragroup_id()，获取群ID（仅群聊消息）
+`.ragroup_id()`，获取群ID（仅群聊消息）
 
-.message_type()，获取消息类型（group/private）
+`.message_type()`，获取消息类型（group/private）
 
-.js()，获取原始字典对象
+`.js()`，获取原始字典对象
 
-.dict()，获取原始字典对象（兼容旧方法）
+`.dict()`，获取原始字典对象（兼容旧方法）
 
-.get()，获取消息字段
+`.get()`，获取消息字段
 
 
 
@@ -385,12 +394,14 @@ msg.raw == "你好":
 ### 插件实例
 
 ```python
+@plugin("你好")
 async def hello_reply(msg: Message, client: BotClient):
     """当收到'你好'时回复这条消息并@发送者加你好"""
     if msg.raw == "你好":
         await client.send_msg().all(msg).reply(msg.message_id).at(msg.user_id).text("你好").image("file:///C:/Users/LENOVO/Desktop/QQ_bot/plugins/src/1.png").send()
 ```
 ```python
+@plugin("转发测试all")
 async def forward_test_all(msg:dict, client: BotClient):
     message_type = msg.get("message_type")
     raw_message = msg.get("raw_message", "")

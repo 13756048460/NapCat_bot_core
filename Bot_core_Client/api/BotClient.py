@@ -5,8 +5,8 @@ NapCat Bot 客户端异步API实现
 import json
 import asyncio
 from typing import Optional, List, Dict, Any
-from .client import BotClient as BaseBotClient
 from ..logs import Logger
+from .client import BotClient as BaseBotClient
 
 
 class BotClient(BaseBotClient):

@@ -38,7 +38,6 @@ class Logger:
             # 创建彩色格式化器
             formatter = colorlog.ColoredFormatter(
                 '%(log_color)s[%(asctime)s]%(reset)s '
-                '%(log_color)s[%(name)s]%(reset)s '
                 '%(log_color)s[%(levelname)s]%(reset)s '
                 '%(message)s',
                 datefmt='%Y-%m-%d %H:%M:%S',
