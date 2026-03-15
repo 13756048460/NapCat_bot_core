@@ -1,7 +1,18 @@
 # Bot Core
 
-这是一个基于 NapCat_api // onebotV11 的 QQ 机器人核心包。
+这是一个基于 NapCat_api // onebotV11 的 QQ 机器人开发包。
+## 开发日志
+### v.1.5.26.3
+- 优化日志功能
+- 添加数据模型类
+- 版本修改为，大版本+小版本+月份+年份后两位
+### 开发方向
 
+- 修改装饰器类，使得更加全面，并使用装饰器添加权限控制
+- 优化插件书写方式，从函数解析过度到类解析
+- 优化api调用方式，使用数据模型类，优化数据结构
+- 使用qt进行图形化包装，并保留包文件开发模式
+- 将之前的旧项目yui_bot整合进[NapCatQQ](https://napneko.github.io/)作为插件方式存在，但此项目还会继续更新。
 ## 功能特性
 
 - **反向WebSocket 连接**: 支持与 NapCat 建立 反向WebSocket 连接。
@@ -11,7 +22,7 @@
 - **动态配置**: 支持通过代码动态配置 URL 和插件目录。
 - **参考文档**: https://napcat.apifox.cn/
 ## 感谢
-感谢 gemini chatGPT 通义 
+感谢 gemini chatGPT 通义 参考过[NcatBot 文档 ](https://docs.ncatbot.xyz/)
 ## 目录结构
 
 ```

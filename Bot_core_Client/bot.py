@@ -25,8 +25,22 @@ class Bot:
                     client = BotClient(ws)
                     async for message in ws:
                         try:
-                            self.logger.info(f"收到消息: {message}")
                             msg = json.loads(message)
+                            post_type = msg.get('post_type', '')
+                                                
+                            # 根据事件类型记录日志
+                            if post_type == 'meta_event':
+                                self.logger.log_meta_event(msg)
+                            elif post_type == 'message':
+                                self.logger.log_message(msg)
+                            elif post_type == 'notice':
+                                self.logger.log_notice_event(msg)
+                            elif post_type == 'request':
+                                self.logger.log_request_event(msg)
+                            else:
+                                self.logger.debug(f"[未知事件] {post_type}")
+                                                
+                            # 处理消息
                             await self.plugin_manager.process_message(msg, client)
                         except json.JSONDecodeError:
                             self.logger.warning(f"无法解析JSON消息: {message}")
